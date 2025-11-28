@@ -1,0 +1,121 @@
+diff --git a/node_modules/@vue/runtime-core/dist/runtime-core.cjs.js b/node_modules/@vue/runtime-core/dist/runtime-core.cjs.js
+index cb3739c..3d1f63d 100644
+--- a/node_modules/@vue/runtime-core/dist/runtime-core.cjs.js
++++ b/node_modules/@vue/runtime-core/dist/runtime-core.cjs.js
+@@ -9,6 +9,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
+ 
+ var reactivity = require('@vue/reactivity');
+ var shared = require('@vue/shared');
++const {isArray} = require("@vue/shared");
+ 
+ const stack = [];
+ function pushWarningContext(vnode) {
+@@ -7735,10 +7736,30 @@ function normalizeChildren(vnode, children) {
+   vnode.shapeFlag |= type;
+ }
+ function mergeProps(...args) {
++  // *** PATCHED FUNCTION ***
+   const ret = {};
++  // PATCH: Собираем все ключи из явных пропсов
++  const explicitProps = new Set();
++
++  // PATCH: Все аргументы кроме последнего - явные пропсы, attrs обычно приходит последним аргументом
++  for (let i = 0; i < args.length - 1; i++) {
++    const toMerge = args[i];
++    for (const key in toMerge) {
++      explicitProps.add(key);
++    }
++  }
++
+   for (let i = 0; i < args.length; i++) {
+     const toMerge = args[i];
+     for (const key in toMerge) {
++      // PATCH: Если это явный пропс - он имеет высший приоритет
++      if (explicitProps.has(key)) {
++        if (!(key in ret)) {
++          ret[key] = toMerge[key];
++        }
++        continue;
++      }
++
+       if (key === "class") {
+         if (ret.class !== toMerge.class) {
+           ret.class = shared.normalizeClass([ret.class, toMerge.class]);
+diff --git a/node_modules/@vue/runtime-core/dist/runtime-core.cjs.prod.js b/node_modules/@vue/runtime-core/dist/runtime-core.cjs.prod.js
+index 453cd60..2109478 100644
+--- a/node_modules/@vue/runtime-core/dist/runtime-core.cjs.prod.js
++++ b/node_modules/@vue/runtime-core/dist/runtime-core.cjs.prod.js
+@@ -9,6 +9,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
+ 
+ var reactivity = require('@vue/reactivity');
+ var shared = require('@vue/shared');
++const {isArray} = require("@vue/shared");
+ 
+ function pushWarningContext(vnode) {
+ }
+@@ -6199,10 +6200,30 @@ function normalizeChildren(vnode, children) {
+   vnode.shapeFlag |= type;
+ }
+ function mergeProps(...args) {
++  // *** PATCHED FUNCTION ***
+   const ret = {};
++  // PATCH: Собираем все ключи из явных пропсов
++  const explicitProps = new Set();
++
++  // PATCH: Все аргументы кроме последнего - явные пропсы, attrs обычно приходит последним аргументом
++  for (let i = 0; i < args.length - 1; i++) {
++    const toMerge = args[i];
++    for (const key in toMerge) {
++      explicitProps.add(key);
++    }
++  }
++
+   for (let i = 0; i < args.length; i++) {
+     const toMerge = args[i];
+     for (const key in toMerge) {
++      // PATCH: Если это явный пропс - он имеет высший приоритет
++      if (explicitProps.has(key)) {
++        if (!(key in ret)) {
++          ret[key] = toMerge[key];
++        }
++        continue;
++      }
++
+       if (key === "class") {
+         if (ret.class !== toMerge.class) {
+           ret.class = shared.normalizeClass([ret.class, toMerge.class]);
+diff --git a/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js b/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js
+index 3518f53..07e2c41 100644
+--- a/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js
++++ b/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js
+@@ -7795,10 +7795,30 @@ function normalizeChildren(vnode, children) {
+   vnode.shapeFlag |= type;
+ }
+ function mergeProps(...args) {
++  // *** PATCHED FUNCTION ***
+   const ret = {};
++  // PATCH: Собираем все ключи из явных пропсов
++  const explicitProps = new Set();
++
++  // PATCH: Все аргументы кроме последнего - явные пропсы, attrs обычно приходит последним аргументом
++  for (let i = 0; i < args.length - 1; i++) {
++    const toMerge = args[i];
++    for (const key in toMerge) {
++      explicitProps.add(key);
++    }
++  }
++
+   for (let i = 0; i < args.length; i++) {
+     const toMerge = args[i];
+     for (const key in toMerge) {
++      // PATCH: Если это явный пропс - он имеет высший приоритет
++      if (explicitProps.has(key)) {
++        if (!(key in ret)) {
++          ret[key] = toMerge[key];
++        }
++        continue;
++      }
++
+       if (key === "class") {
+         if (ret.class !== toMerge.class) {
+           ret.class = normalizeClass([ret.class, toMerge.class]);

@@ -12,8 +12,9 @@ defineProps({
 </script>
 
 <template>
-	{{ text }}
-	<hr>
-	{{ disabled }} <!-- Отображается: true  -->
-	<button :disabled="disabled">Кнопка</button> <!-- Заблокирована  -->
+	text: {{ text }}
+	<hr />
+	disabled: {{ disabled }}
+	<hr />
+	<button :disabled="disabled">Кнопка</button>
 </template>

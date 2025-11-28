@@ -4,5 +4,5 @@ import Comp2 from './Comp2.vue';
 
 <template>
 	<!-- Явно передаем :disabled="false", но он игнорируется! -->
-	<Comp2 :disabled="false" />
+	<Comp2 :disabled="false" :text="'asdasd'" />
 </template>

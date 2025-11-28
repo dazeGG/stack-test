@@ -1,38 +1,28 @@
-# stack
+# Stack Test
 
-This template should help get you started developing with Vue 3 in Vite.
+В тестовом задании использовался yarn, необходимо установить зависимости:
 
-## Recommended IDE Setup
-
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-pnpm install
+```bash
+yarn
 ```
 
-### Compile and Hot-Reload for Development
+## Проверка функционала
 
-```sh
-pnpm dev
+
+1. Запустить локальный дев сервер:
+
+```bash
+yarn dev
 ```
 
-### Compile and Minify for Production
+2. Проверить на странице результат, должно быть text: asdasd, disabled: false, потому что такие значения передаются в Comp2 из Comp1.
 
-```sh
-pnpm build
-```
+3. Поменять значения, которые передаются в Comp2 из Comp1, чтобы удостовериться, что оно работает корректно.
+
+4. Убрать пропсы disabled и text у компонента Comp2 в Comp1, посмотреть значния на сайте, должно быть text: qweqwe, disabled: true, потому что берутся fallthrough значения из attrs, которые передаются в Comp1 из App.
+
+5. Поменять значения, которые передаются в Comp1 из App, чтобы удостовериться, что оно работает корректно.
+
+6. Убрать атрибуты disabled и text у компонента Comp1 в App, посмотреть значния на сайте, должны быть дефолтные text: zxczxc, disabled: false
+
+7. Поменять дефолтные значения пропсов в Comp2, чтобы удостовериться, что оно работает корректно.
